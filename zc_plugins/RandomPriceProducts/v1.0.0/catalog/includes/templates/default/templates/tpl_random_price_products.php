@@ -7,7 +7,7 @@
     <div class="mb-3">
         <form id="priceRangeForm">
             <label for="price_range" class="form-label">Select Price Range:</label>
-            <select name="price_range" class="custom-select w-auto" onchange="updateRandomProducts(this.value)">
+            <select name="price_range" id = "price_range" class="custom-select w-auto" onchange="updateRandomProducts(this.value)">
 <?php
 foreach ($randomProductRanges as $randomProductRange) {
     list($randomProductstart, $randomProductEnd) = explode('-', $randomProductRange);
@@ -32,7 +32,7 @@ foreach ($randomProductProducts as $randomProduct) {
                     <?= zen_image(DIR_WS_IMAGES . $randomProduct['products_image'], $randomProduct['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) ?>
                 </a>
                 <div class="card-body">
-                    <h5 class="card-title"><?= $randomProduct['products_name']; ?></h5>
+                    <p class="card-title h5"><?= $randomProduct['products_name']; ?></p>
                     <p class="card-text"><?= zen_get_products_display_price($randomProduct['products_id']); ?></p>
                 </div>
             </div>
