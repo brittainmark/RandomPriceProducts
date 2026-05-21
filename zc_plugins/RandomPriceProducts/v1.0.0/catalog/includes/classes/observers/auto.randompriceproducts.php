@@ -31,7 +31,7 @@ class zcObserverRandompriceproducts extends base
                     '@type' => 'ListItem',
                     'position' => $list_pos,
                     'url' => htmlspecialchars_decode(zen_href_link(zen_get_info_page($randomProduct['products_id']), 'products_id=' . $randomProduct['products_id'])),
-                    'name' => sdata_prepare_string($randomProduct['products_name']),
+                    'name' => $this->sdata_prepare_string($randomProduct['products_name']),
                     'image' => (!empty( $randomProduct['products_image'])) ? HTTP_SERVER . DIR_WS_CATALOG . DIR_WS_IMAGES .  $randomProduct['products_image'] : '',
                 ];
                 $list_pos++;
@@ -64,6 +64,15 @@ class zcObserverRandompriceproducts extends base
             $value = array_filter($value, fn($v) => $v !== '' && $v !== [] && $v !== null);
         }
         return $value;
+    }
+    protected function  sdata_prepare_string($string): string
+    {
+        $string = html_entity_decode(trim($string), ENT_COMPAT, CHARSET);//convert HTML entities to characters
+        $string = str_replace('</p>', '</p> ', $string); // add a space to separate text when tags are removed
+        $string = str_replace('<br>', '<br> ', $string); // add a space to separate text when tags are removed
+        $string = strip_tags($string);//remove html tags
+        $string = str_replace(["\r\n", "\n", "\r"], '', $string); // remove LF, CR
+        return preg_replace('/\s+/', ' ', $string); // remove multiple spaces
     }
 }
 

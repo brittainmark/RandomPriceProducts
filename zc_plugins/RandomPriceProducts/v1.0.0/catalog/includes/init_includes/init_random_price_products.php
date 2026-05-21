@@ -13,7 +13,6 @@ if (!defined('IS_ADMIN_FLAG')) {
 if (IS_ADMIN_FLAG === false) {
 
     // Load main module
-    
 
     switch ($current_page_base) {
         case 'ajaxHandler':
@@ -24,7 +23,12 @@ if (IS_ADMIN_FLAG === false) {
             break;
         case 'index':
             if (empty($cpath)) {
-                $randomPricePath = $installedPlugins['RandomPriceProducts']->getAbsolutePath();
+                if (is_object($installedPlugins['RandomPriceProducts']) && method_exists($installedPlugins['RandomPriceProducts'], 'getAbsolutePath')) {
+                    $randomPricePath = $installedPlugins['RandomPriceProducts']->getAbsolutePath();
+                } else {
+                    $randomPricePath = DIR_FS_CATALOG . 'zc_plugins/' . $installedPlugins['RandomPriceProducts']['unique_key'] . '/' . $installedPlugins['RandomPriceProducts']['version'] . '/';
+
+                }
                 require_once $randomPricePath . 'catalog/' . DIR_WS_MODULES . 'random_price_products.php';
 /*
  * or move
