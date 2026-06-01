@@ -1,6 +1,17 @@
 # Random Products by Price Range (Encapsulated Plugin)
 
-Place the `RandomPriceProducts` folder in `/zc_plugins/` and install via Admin → Plugins → Plugin Manager.
+Copy content fo zc_plugins to zc_plugins folder and install via Admin → Plugins → Plugin Manager.
+Modify the page that you require the random priced products to appear
+
+Add code
+```
+    if (!empty($randompriceproducts_plugin_presence_indicator) || true) {
+        $randomPage = $pageLoader->getTemplatePluginDir('tpl_random_price_products.php', 'templates', 'RandomPriceProducts') . '/tpl_random_price_products.php';
+        if ($randomPage) {
+            require_once $randomPage;
+        }
+    }
+```
 
 ## Features
 - Encapsulated in `/zc_plugins/RandomPriceProducts`
