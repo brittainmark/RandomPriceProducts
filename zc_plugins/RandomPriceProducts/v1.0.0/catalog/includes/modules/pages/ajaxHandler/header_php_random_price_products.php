@@ -7,7 +7,12 @@
 if (!defined('IS_ADMIN_FLAG')) die('Illegal Access');
 
 if (isset($_GET['rnd_action']) && $_GET['rnd_action'] === 'random_price_products') {
-    $randomPricePath = $installedPlugins['RandomPriceProducts']->getAbsolutePath();
+    if (is_object($installedPlugins['RandomPriceProducts']) && method_exists($installedPlugins['RandomPriceProducts'], 'getAbsolutePath')) {
+        $randomPricePath = $installedPlugins['RandomPriceProducts']->getAbsolutePath();
+    } else {
+        $randomPricePath = DIR_FS_CATALOG . 'zc_plugins/' . $installedPlugins['RandomPriceProducts']['unique_key'] . '/' . $installedPlugins['RandomPriceProducts']['version'] . '/';
+
+    }
     require_once $randomPricePath . 'catalog/' . DIR_WS_MODULES . 'random_price_products.php';
     // get template file
     $randomPricePath = $pageLoader->getTemplateDirectory('tpl_random_price_products.php', $template_dir, $current_page, 'templates');
@@ -16,4 +21,3 @@ if (isset($_GET['rnd_action']) && $_GET['rnd_action'] === 'random_price_products
     exit;
 }
 
-  
